@@ -9,10 +9,10 @@ export class User{
     @Prop()
     id: UUID
 
-    @Prop()
+    @Prop({unique:true})
     phone_number: Number
 
-    @Prop()
+    @Prop({unique:true})
     email: String
 
     @Prop()
