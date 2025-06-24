@@ -1,4 +1,4 @@
-import { IsDateString, IsEmail, IsNotEmpty, IsNumber, IsPhoneNumber, MinLength } from "class-validator"
+import { IsDateString, IsEmail, IsNotEmpty, IsNumber, MinLength } from "class-validator"
 
 export class SignupUserDTO {
     @IsNumber()
