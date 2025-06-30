@@ -1,0 +1,153 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Account {
+  _id: String
+  balance: Float
+  account_type: AccountTypeEnum
+  account_number: String
+  status: AccountStatusEnum
+  limit: Float
+  daily_limit: Float
+  todays_spendable: Float
+  tier: AccountTierEnum
+  primary: Boolean
+  user_id: String
+  account_user_name: String
+}
+
+"""Savings or current."""
+enum AccountTypeEnum {
+  SAVINGS
+  CURRENT
+}
+
+"""Acceptance status of the account. Defaults to approved."""
+enum AccountStatusEnum {
+  APPROVED
+  BLOCKED
+}
+
+"""
+Outlines the various tiers of the account, from the lowest to the highest.
+"""
+enum AccountTierEnum {
+  OBSIDIAN
+  EMERALD
+  ALEXANDRITE
+}
+
+type Transactions {
+  _id: String!
+  type: TransactionTypeEnum!
+  amount: Float!
+  status: TransactionStatusEnum!
+  description: String!
+  account_id: String!
+  date: DateTime!
+}
+
+"""Type of transaction, either deposit or withdraw"""
+enum TransactionTypeEnum {
+  WITHDRAW
+  DEPOSIT
+}
+
+"""
+Status of the transaction, can be successful, failed, reversed or pending
+"""
+enum TransactionStatusEnum {
+  SUCCESSFUL
+  FAILED
+  REVERSED
+  PENDING
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LoginResponseDTO {
+  phone_number: Float!
+  email: String!
+  token: String!
+}
+
+type Query {
+  getHello: String!
+  findById(accountDisplayDTO: AccountDisplayDTO!): Account!
+  findAllBelongingToUser(paginateDTO: PaginationArgs!): [Account!]!
+  history(historyDTO: AccountHistoryDTO!): [Transactions!]!
+  primaryAccount(getPrimaryAccountDTO: GetUserPrimaryAccountDTO!): Account
+  singleTransaction(singleTransactionDTO: SingleTransactionDTO!): [Transactions!]!
+}
+
+input AccountDisplayDTO {
+  account_id: String!
+}
+
+input PaginationArgs {
+  offset: Int! = 0
+  limit: Int! = 10
+}
+
+input AccountHistoryDTO {
+  id: String!
+  limit: Float = 10
+  skip: Float = 0
+}
+
+input GetUserPrimaryAccountDTO {
+  token: String!
+}
+
+input SingleTransactionDTO {
+  id: String!
+}
+
+type Mutation {
+  signUp(signupUserDTO: SignupUserDTO!): LoginResponseDTO!
+  login(loginUserDTO: LoginUserDTO!): String!
+  refreshToken(refreshTokenDTO: RefreshTokenDTO!): String!
+  create(accountCreateDTO: AccountCreateDTO!): Account!
+  setPin(setPinDTO: SetAccountPinDTO!): Account!
+  transact(transactDTO: AccountTransactDTO!): Transactions!
+}
+
+input SignupUserDTO {
+  phone_number: Float!
+  email: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+  dob: String!
+}
+
+input LoginUserDTO {
+  username: Float!
+  password: String!
+}
+
+input RefreshTokenDTO {
+  token: String!
+}
+
+input AccountCreateDTO {
+  account_type: AccountTypeEnum!
+}
+
+input SetAccountPinDTO {
+  pin: String!
+  confirmPin: String!
+  account_id: String!
+}
+
+input AccountTransactDTO {
+  amount: Float!
+  account_id: String!
+  description: String
+  transaction_type: String!
+  pin: String!
+}
