@@ -1,14 +1,7 @@
-import { IsNotEmpty, MaxLength, MinLength } from "class-validator"
+import { Field, InputType } from '@nestjs/graphql';
 
-export class SetTransactionPinDTO {
-    @IsNotEmpty()
-    @MinLength(4)
-    @MaxLength(4)
-    pin: string
-
-    @IsNotEmpty()
-    @MinLength(4)
-    @MaxLength(4)
-    confirmPin: string
-
+@InputType()
+export class SingleTransactionDTO {
+  @Field()
+  id: string;
 }
