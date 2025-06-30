@@ -105,4 +105,4 @@
         Create Account
     </button>
 </form>
-<p><a href="/signup" class="hover:underline">Already have an account? Login</a></p>
+<p><a href="/login" class="hover:underline">Already have an account? Login</a></p>
