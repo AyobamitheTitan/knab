@@ -1,28 +1,54 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
+
 import { HydratedDocument } from 'mongoose';
-import { TransactionStatusEnum, TransactionTypeEnum } from '../enums/transactions.enum';
+import {
+  TransactionStatusEnum,
+  TransactionTypeEnum,
+} from '../enums/transactions.enum';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 
-export type TransactionsDocument = HydratedDocument<Transactions>
+export type TransactionsDocument = HydratedDocument<Transactions>;
 
+registerEnumType(TransactionTypeEnum, {
+  name: 'TransactionTypeEnum',
+  description: 'Type of transaction, either deposit or withdraw',
+});
+
+registerEnumType(TransactionStatusEnum, {
+  name: 'TransactionStatusEnum',
+  description:
+    'Status of the transaction, can be successful, failed, reversed or pending',
+});
+
+@ObjectType()
 @Schema()
 export class Transactions {
-    @Prop()
-    type: TransactionTypeEnum
+  @Field(() => String)
+  _id: MongooseSchema.Types.ObjectId;
+  @Field(() => TransactionTypeEnum)
+  @Prop()
+  type: TransactionTypeEnum;
 
-    @Prop()
-    amount: Number
+  @Field(() => Number)
+  @Prop()
+  amount: number;
 
-    @Prop()
-    status: TransactionStatusEnum
+  @Field(() => TransactionStatusEnum)
+  @Prop()
+  status: TransactionStatusEnum;
 
-    @Prop()
-    description: String
+  @Field(() => String)
+  @Prop()
+  description: string;
 
-    @Prop()
-    account_id: String
+  @Field(() => String)
+  @Prop()
+  account_id: string;
 
-    @Prop({default: new Date()})
-    date: Date
+  @Field(() => Date)
+  @Prop({ default: new Date() })
+  date: Date;
 }
 
-export const TransactionsSchema = SchemaFactory.createForClass(Transactions)
+export const TransactionsSchema = SchemaFactory.createForClass(Transactions);
