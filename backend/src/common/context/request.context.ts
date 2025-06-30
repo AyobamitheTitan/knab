@@ -1,0 +1,3 @@
+interface RequestContext {
+  req: Request;
+}
